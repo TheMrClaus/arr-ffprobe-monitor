@@ -1,10 +1,4 @@
-FROM alpine:latest
-
-# Install required packages
-RUN apk add --no-cache \
-    bash \
-    docker-cli \
-    tzdata
+FROM alpine:3.19
 
 # Create app directory
 WORKDIR /app
@@ -20,4 +14,4 @@ ENV CONTAINERS="radarr4k,sonarr4k" \
     TZ="UTC"
 
 # Run the monitoring loop
-CMD ["/app/monitor.sh"]
+CMD ["/bin/sh", "/app/monitor.sh"]

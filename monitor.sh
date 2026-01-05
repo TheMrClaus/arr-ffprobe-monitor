@@ -1,20 +1,21 @@
-#!/bin/bash
+#!/bin/sh
 # Docker-based ffprobe monitor for *arr containers
 
-# Parse container list from environment variable
-IFS=',' read -ra CONTAINER_LIST <<< "$CONTAINERS"
-
 echo "[$(date)] Starting *arr ffprobe monitor"
-echo "Monitoring containers: ${CONTAINER_LIST[*]}"
-echo "Max allowed runtime: ${MAX_MINUTES} minutes"
-echo "Check interval: ${CHECK_INTERVAL} seconds"
+echo "Monitoring containers: $CONTAINERS"
+echo "Max allowed runtime: $MAX_MINUTES minutes"
+echo "Check interval: $CHECK_INTERVAL seconds"
 echo "----------------------------------------"
 
 # Main monitoring loop
 while true; do
-    for CONTAINER in "${CONTAINER_LIST[@]}"; do
+    # Parse container list (comma-separated)
+    echo "$CONTAINERS" | tr ',' '\n' | while read -r CONTAINER; do
         # Trim whitespace
         CONTAINER=$(echo "$CONTAINER" | xargs)
+
+        # Skip if empty
+        [ -z "$CONTAINER" ] && continue
 
         # Check if container exists and is running
         if ! docker ps --format '{{.Names}}' 2>/dev/null | grep -q "^${CONTAINER}$"; then
