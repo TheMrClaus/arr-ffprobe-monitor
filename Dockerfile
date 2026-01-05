@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM docker:cli
 
 # Create app directory
 WORKDIR /app

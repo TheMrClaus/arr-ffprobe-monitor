@@ -4,10 +4,9 @@ services:
     container_name: arr-ffprobe-monitor
     restart: unless-stopped
 
-    # Mount Docker socket and binary to allow container management
+    # Mount Docker socket to allow container management
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /usr/bin/docker:/usr/bin/docker:ro
       - ./logs:/logs
 
     environment:
