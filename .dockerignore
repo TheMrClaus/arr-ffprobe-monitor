@@ -1,0 +1,7 @@
+logs/
+.env
+.env.example
+README.md
+compose.yaml
+.git/
+.gitignore

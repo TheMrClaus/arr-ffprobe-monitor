@@ -1,0 +1,43 @@
+services:
+  arr-ffprobe-monitor:
+    build: .
+    container_name: arr-ffprobe-monitor
+    restart: unless-stopped
+
+    # Mount Docker socket to allow container management
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./logs:/logs
+
+    environment:
+      # Comma-separated list of container names to monitor
+      - CONTAINERS=radarr4k,sonarr4k
+
+      # Maximum runtime in minutes before killing ffprobe
+      - MAX_MINUTES=5
+
+      # How often to check (in seconds)
+      - CHECK_INTERVAL=600
+
+      # Timezone
+      - TZ=Europe/Madrid
+
+      # Optional: log file path inside container
+      - LOG_FILE=/logs/ffprobe-kills.log
+
+    # Minimal resources needed
+    mem_limit: 64m
+    cpus: 0.1
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "monitor.sh"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+# Optional: if you want to attach to existing networks
+# networks:
+#   mediaserver:
+#     external: true
