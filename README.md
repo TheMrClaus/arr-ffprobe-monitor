@@ -1,6 +1,11 @@
 # *arr ffprobe Monitor - Docker Container
 
+[![Docker Image CI](https://github.com/TheMrClaus/arr-ffprobe-monitor/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/TheMrClaus/arr-ffprobe-monitor/actions/workflows/docker-publish.yml)
+[![GitHub](https://img.shields.io/github/license/TheMrClaus/arr-ffprobe-monitor)](https://github.com/TheMrClaus/arr-ffprobe-monitor/blob/main/LICENSE)
+
 A lightweight Docker container that monitors Radarr, Sonarr, and other *arr containers for stuck ffprobe processes and automatically kills them.
+
+**🔗 Repository:** https://github.com/TheMrClaus/arr-ffprobe-monitor
 
 ## Features
 
@@ -14,10 +19,28 @@ A lightweight Docker container that monitors Radarr, Sonarr, and other *arr cont
 
 ## Quick Start
 
-### 1. Build and start the container
+### Option 1: Using Pre-built Image (Coming Soon)
 
 ```bash
-cd /opt/arr-monitor
+# Using GitHub Container Registry
+docker run -d \
+  --name arr-ffprobe-monitor \
+  --restart unless-stopped \
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  -e CONTAINERS=radarr4k,sonarr4k \
+  -e MAX_MINUTES=5 \
+  -e CHECK_INTERVAL=600 \
+  ghcr.io/themrclaus/arr-ffprobe-monitor:latest
+```
+
+### Option 2: Using Docker Compose (Build from Source)
+
+```bash
+# Clone the repository
+git clone https://github.com/TheMrClaus/arr-ffprobe-monitor.git
+cd arr-ffprobe-monitor
+
+# Start the container
 docker compose up -d
 ```
 
