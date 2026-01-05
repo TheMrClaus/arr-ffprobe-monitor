@@ -14,10 +14,10 @@ services:
       - CONTAINERS=radarr4k,sonarr4k
 
       # Maximum runtime in minutes before killing ffprobe
-      - MAX_MINUTES=5
+      - MAX_MINUTES=1
 
       # How often to check (in seconds)
-      - CHECK_INTERVAL=600
+      - CHECK_INTERVAL=120
 
       # Timezone
       - TZ=Europe/Madrid
